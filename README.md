@@ -1,6 +1,6 @@
-Cassandra Backup and Restore with AWS S3
+Cassandra Backup and Restore with Azure Storage Account
 ====================
-Shell script for creating and managing Cassandra Backups using AWS S3
+Shell script for creating and managing Cassandra Backups using Azure Storage Account
 ## Features
 - Take snapshot backups
 - Copy Incremental backup files
@@ -9,8 +9,8 @@ Shell script for creating and managing Cassandra Backups using AWS S3
 - Execute Dry Run mode to identify target files
 
 ## Requirements
-AWS S3 installed with `aws s3` utility configured for authentication to 
-An existing AWS S3 bucket 
+Azure Storage Account installed with `az ...` utility configured for authentication to 
+An existing Azure Storage Account
 Linux system with BASH shell. 
 Cassandra 2+
 
@@ -36,11 +36,11 @@ Cassandra 2+
 
  ` ./cassandra-cloud-backup.sh -b s3://cass-bk123/backups/host01/snpsht/2016-01-20_18-57/ -fk -d /var/lib/cassandra/backups restore`
 
-  - List inventory of available backups stored in AWS S3
+  - List inventory of available backups stored in Azure Storage Account
 
  ` ./cassandra-cloud-backup.sh -b s3://cass-bk123 inventory`
  
-  - List inventory of available backups stored in AWS S3 for a different server
+  - List inventory of available backups stored in Azure Storage Account for a different server
 
  ` ./cassandra-cloud-backup.sh -b s3://cass-bk123 inventory -a testserver01`
 
@@ -62,8 +62,8 @@ Cassandra 2+
   -B, backup
     Default action is to take a backup
 
-  -b, --awsbucket
-   AWS S3 bucket used in deployment and by the cluster.
+  -b, --azbucket
+    Azure Storage Account used in deployment and by the cluster.
 
   -c, --clear-old-ss
     Clear any old SnapShots taken prior to this backup run to save space
@@ -95,7 +95,7 @@ Cassandra 2+
     be run when compression is enabled with -z or -j
 
   -j, --bzip
-    Compresses the backup files with bzip2 prior to pushing to AWS S3
+    Compresses the backup files with bzip2 prior to pushing to Azure Storage Account
     This option will use additional local disk space set the --target-gz-dir
     to use an alternate disk location if free space is an issue
 
@@ -147,7 +147,7 @@ Cassandra 2+
     default: /etc/cassandra/cassandra.yaml
 
   -z, --zip
-    Compresses the backup files with gzip prior to pushing to AWS S3
+    Compresses the backup files with gzip prior to pushing to Azure Storage Account
     This option will use additional local disk space set the --target-gz-dir
     to use an alternate disk location if free space is an issue
 
