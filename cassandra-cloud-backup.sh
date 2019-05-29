@@ -816,7 +816,7 @@ function clear_incrementals() {
 function copy_to_azure() {
   loginfo "Copying files to ${AZ_BACKUP_PATH}"
   if ${DRY_RUN}; then
-    if ${SPLIT_FILE}; thenz
+    if ${SPLIT_FILE}; then
       loginfo "DRY RUN: ${AZCLI} storage blob upload --container-name ${AZ_BUCKET} --file \"${COMPRESS_DIR}/${SPLIT_FILE_SUFFIX}*\" --name ${AZ_BACKUP_PATH}${SPLIT_FILE_SUFFIX}*"
     else
       loginfo "DRY RUN: ${AZCLI} storage blob upload --container-name ${AZ_BUCKET} --file \"${COMPRESS_DIR}/${ARCHIVE_FILE}*\" --name ${AZ_BACKUP_PATH}/${ARCHIVE_FILE}"
