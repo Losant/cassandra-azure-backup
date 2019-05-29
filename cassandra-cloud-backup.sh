@@ -254,7 +254,7 @@ function validate() {
       logerror "Please pass in the Azure Storage Account to use with this script"
       exit 1
   else
-      if ! ${AZCLI} s3 ls ${AZ_BUCKET} &> /dev/null; then  # CHANGE THIS
+      if ! ${AZCLI} storage blob list --container-name ${AZ_BUCKET} &> /dev/null; then  # CHANGE THIS
         logerror "Cannot access Azure Storage Account ${AZ_BUCKET} make sure" \
         " it exists"
         exit 1
