@@ -827,7 +827,7 @@ function copy_to_azure() {
       ${AZCLI} storage blob upload --container-name ${AZ_BUCKET} --file "${COMPRESS_DIR}/${SPLIT_FILE_SUFFIX}*" --name "${AZ_BACKUP_PATH}/${SPLIT_FILE_SUFFIX}*"
     else
       # ${AZCLI} s3 cp "${COMPRESS_DIR}/${ARCHIVE_FILE}" "${AZ_BACKUP_PATH}"
-      ${AZCLI} storage blob upload --container-name ${AZ_BUCKET} --file "${COMPRESS_DIR}/${ARCHIVE_FILE}*" --name "${AZ_BACKUP_PATH}/${ARCHIVE_FILE}"
+      ${AZCLI} storage blob upload --container-name ${AZ_BUCKET} --file "${COMPRESS_DIR}/${ARCHIVE_FILE}" --name "${AZ_BACKUP_PATH}/${ARCHIVE_FILE}"
     fi
   fi
 }
