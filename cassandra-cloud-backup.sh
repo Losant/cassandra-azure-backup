@@ -817,11 +817,12 @@ function copy_to_azure() {
   loginfo "Copying files to ${AZ_BACKUP_PATH}"
   if ${DRY_RUN}; then
     if ${SPLIT_FILE}; then
-      loginfo "DRY RUN: ${AZCLI} storage blob upload --container-name ${AZ_BUCKET} --file \"${COMPRESS_DIR}/${SPLIT_FILE_SUFFIX}*\" --name ${AZ_BACKUP_PATH}${SPLIT_FILE_SUFFIX}*"
+      loginfo "DRY RUN: ${AZCLI} storage blob upload --container-name ${AZ_BUCKET} --file \"${COMPRESS_DIR}/${SPLIT_FILE_SUFFIX}*\" --name ${AZ_BACKUP_PATH}/${SPLIT_FILE_SUFFIX}*"
     else
       loginfo "DRY RUN: ${AZCLI} storage blob upload --container-name ${AZ_BUCKET} --file \"${COMPRESS_DIR}/${ARCHIVE_FILE}*\" --name ${AZ_BACKUP_PATH}/${ARCHIVE_FILE}"
     fi
   else
+    loginfo "##### What is the name of ARCHIVE_FILE: ${ARCHIVE_FILE} #####"
     if ${SPLIT_FILE}; then
       # ${AZCLI} s3 cp "${COMPRESS_DIR}/${SPLIT_FILE_SUFFIX}*" "${AZ_BACKUP_PATH}"  # CHANGE THIS
       ${AZCLI} storage blob upload --container-name ${AZ_BUCKET} --file "${COMPRESS_DIR}/${SPLIT_FILE_SUFFIX}*" --name "${AZ_BACKUP_PATH}/${SPLIT_FILE_SUFFIX}*"
