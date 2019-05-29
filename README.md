@@ -12,7 +12,9 @@ export AZURE_ACCOUNT_KEY="${account_key}"
 ```
 
 We also recommend adding this to ~/.bashrc or a similar file, so it remains on server restarts.
+
 ---
+
 The backup-*.sh files assume that the azure container is named `cassandra-backups` and that this project is cloned to `/` directory.
 
 ## Features
