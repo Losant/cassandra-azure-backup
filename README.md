@@ -1,6 +1,20 @@
 Cassandra Backup and Restore with Azure Storage Account
 ====================
 Shell script for creating and managing Cassandra Backups using Azure Storage Account
+
+## Assumptions
+
+We are assuming that this is run as a cron script. In order to do so, you should set these ENV_VARS so that you don't have to run `az login`:
+
+```bash
+export AZURE_ACCOUNT_SERVICE="${account_name}"
+export AZURE_ACCOUNT_KEY="${account_key}"
+```
+
+We also recommend adding this to ~/.bashrc or a similar file, so it remains on server restarts.
+---
+The backup-*.sh files assume that the azure container is named `cassandra-backups` and that this project is cloned to `/` directory.
+
 ## Features
 - Take snapshot backups
 - Copy Incremental backup files
