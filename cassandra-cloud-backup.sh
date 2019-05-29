@@ -254,7 +254,7 @@ function validate() {
       logerror "Please pass in the Azure Storage Account to use with this script"
       exit 1
   else
-      if ! ${AZCLI} storage blob list --container-name ${AZ_BUCKET} &> /dev/null; then  # CHANGE THIS
+      if ! ${AZCLI} storage blob list --container-name ${AZ_BUCKET} &> /dev/null; then
         logerror "Cannot access Azure Storage Account ${AZ_BUCKET} make sure" \
         " it exists"
         exit 1
@@ -504,20 +504,12 @@ function touch_logfile() {
 # List available backups in Azure
 function inventory() {
   loginfo "Available Snapshots:"
-  # CHANGE THIS - NEEDS THE ABILITY TO PASS IN ACCOUNT_NAME (OR SET IT IN AN ENV_VAR i.e. AZURE_STORAGE_ACCOUNT_NAME)
-  # aws s3api list-objects --bucket ${AZ_BUCKET} --output text --prefix "backups/${HOSTNAME}/snpsht/" --query 'Contents[].{Key: Key}' | grep '00-00/$' | awk '{printf "s3://${AZ_BUCKET}/%s\n",$1}'
-  # Set this as an ENV_VAR:
-  #     --account-name losantsingtelgeneral
   az storage blob list --container-name ${AZ_BUCKET} | jq -r .[].name | grep '00-00/$'
 
   if [ -z $incremental_backups ] || [ $incremental_backups = false ]; then
     loginfo "Incremental Backups are not enabled for Cassandra"
   fi
   loginfo "Available Incremental Backups:"
-  # CHANGE THIS
-  # aws s3api list-objects --bucket ${AZ_BUCKET} --output text --prefix "backups/${HOSTNAME}/incr/" --query 'Contents[].{Key: Key}' | grep '[0,2,4,6,8,10,12,14,16,18,20.22]-00/$' | awk '{printf "s3://${AZ_BUCKET}/%s\n",$1}'
-  # Set this as an ENV_VAR:
-  #     --account-name losantsingtelgeneral
   az storage blob list --container-name ${AZ_BUCKET} | jq -r .[].name | grep '[0,2,4,6,8,10,12,14,16,18,20.22]-00/$'   # May need additional filters
 }
 
@@ -824,10 +816,8 @@ function copy_to_azure() {
   else
     loginfo "##### What is the name of ARCHIVE_FILE: ${ARCHIVE_FILE} #####"
     if ${SPLIT_FILE}; then
-      # ${AZCLI} s3 cp "${COMPRESS_DIR}/${SPLIT_FILE_SUFFIX}*" "${AZ_BACKUP_PATH}"  # CHANGE THIS
       ${AZCLI} storage blob upload --container-name ${AZ_BUCKET} --file "${COMPRESS_DIR}/${SPLIT_FILE_SUFFIX}*" --name "${AZ_BACKUP_PATH}${SPLIT_FILE_SUFFIX}*"
     else
-      # ${AZCLI} s3 cp "${COMPRESS_DIR}/${ARCHIVE_FILE}" "${AZ_BACKUP_PATH}"
       ${AZCLI} storage blob upload --container-name ${AZ_BUCKET} --file "${COMPRESS_DIR}/${ARCHIVE_FILE}" --name "${AZ_BACKUP_PATH}${ARCHIVE_FILE}"
     fi
   fi
@@ -900,7 +890,6 @@ function restore_get_files() {
 function restore_split_from_azure() {
   loginfo "Downloading restore files from Azure"
   if ${DRY_RUN}; then
-    # loginfo "DRY RUN: ${AZCLI} --recursive s3 cp ${AZ_BUCKET} ${COMPRESS_DIR}" # CHANGE THIS
     loginfo "DRY RUN: ${AZCLI} storage blob download --container-name ${AZ_BUCKET} --file \"${COMPRESS_DIR}\" --name ${AZ_BACKUP_PATH}/${COMPRESS_DIR}"
   else
     ${AZCLI} storage blob download --container-name ${AZ_BUCKET} --file "${COMPRESS_DIR}" --name "${AZ_BACKUP_PATH}"
@@ -911,11 +900,9 @@ function restore_split_from_azure() {
 # Retrieve the compressed backup file
 function restore_compressed_from_azure() {
     if ${DRY_RUN}; then
-      # loginfo "DRY RUN: ${AZCLI} s3 cp ${AZ_BUCKET} ${COMPRESS_DIR}" # CHANGE THIS
       loginfo "DRY RUN: ${AZCLI} storage blob download --container-name ${AZ_BUCKET} --file s${COMPRESS_DIR}"
     else
        #copy the tar.gz file
-      # ${AZCLI} s3 cp "${AZ_BUCKET}" "${COMPRESS_DIR}" # CHANGE THIS
       ${AZCLI} storage blob download --container-name ${AZ_BUCKET} --file "${COMPRESS_DIR}"
     fi
     restore_decompress
