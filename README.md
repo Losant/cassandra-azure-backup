@@ -38,27 +38,27 @@ Cassandra 2+
   - Take a full snapshot, gzip compress it with nice level 15,  use the /var/lib/cassandra/backups directory to stage the backup before
   uploading it to the GCS Bucket, and clear old incremental and snapshot files
 
- `./cassandra-cloud-backup.sh -b s3://cassandra-backups123/ -zCc -N 15 -d /var/lib/cassandra/backups backup`
+ `./cassandra-cloud-backup.sh -b cassandra-backups123 -zCc -N 15 -d /var/lib/cassandra/backups backup`
 
   - Do a dry run of a full snapshot with verbose output and create list of files that would have been copied
 
-  `./cassandra-cloud-backup.sh -b s3://cassandra-backups123/ -vn backup`
+  `./cassandra-cloud-backup.sh -b cassandra-backups123 -vn backup`
 
   - Backup and bzip2 compress copies of the most recent incremental backup files since the last incremental backup
 
-`  ./cassandra-cloud-backup.sh -b s3://cassandra-backups123/ -ji -d /var/lib/cassandra/backups backup`
+`  ./cassandra-cloud-backup.sh -b cassandra-backups123 -ji -d /var/lib/cassandra/backups backup`
 
   - Restore a backup without prompting from given bucket path and keep the old files locally
 
- ` ./cassandra-cloud-backup.sh -b s3://cass-bk123/backups/host01/snpsht/2016-01-20_18-57/ -fk -d /var/lib/cassandra/backups restore`
+ ` ./cassandra-cloud-backup.sh -b cass-bk123/backups/host01/snpsht/2016-01-20_18-57 -fk -d /var/lib/cassandra/backups restore`
 
   - List inventory of available backups stored in Azure Storage Account
 
- ` ./cassandra-cloud-backup.sh -b s3://cass-bk123 inventory`
+ ` ./cassandra-cloud-backup.sh -b cass-bk123 inventory`
  
   - List inventory of available backups stored in Azure Storage Account for a different server
 
- ` ./cassandra-cloud-backup.sh -b s3://cass-bk123 inventory -a testserver01`
+ ` ./cassandra-cloud-backup.sh -b cass-bk123 inventory -a testserver01`
 
 ### Commands:
 
